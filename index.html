@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./pages/index.css">
+    <title>Mesto</title>
+</head>
+<body class="body">
+    <div class="page">
+
+        <header class="header">
+            <img src="./images/logo.svg" alt="Логотип" class="header__logo">
+        </header>
+
+        <main class="content">
+
+            <section class="profile">
+                <img src="./images/Kusto.jpg" alt="Аватарка" class="profile__avatar">
+                <div class="profile-info">
+                    <h1 class="profile-info__title">Жак-Ив Кусто</h1>
+                    <p class="profile-info__sub-title">Исследователь океана</p>
+                    <button class="profile-info__edit-button"></button>
+                </div>
+                <button class="profile__add-button"></button>
+            </section>
+
+            <section class="elements">
+                <div class="element">
+                    <img src="./images/Karachaevo.jpg" alt="Дом в горах" class="element__image">
+                    <div class="element__group">
+                        <h2 class="element__title">Карачаевск</h2>
+                        <button class="element__like"></button>
+                    </div>
+                    
+                </div>
+                <div class="element">
+                    <img src="./images/Gora.jpg" alt="Гора в далеке" class="element__image">
+                    <div class="element__group">
+                        <h2 class="element__title">Гора Эльбрус</h2>
+                        <button class="element__like"></button>
+                    </div>
+                    
+                </div>
+                <div class="element">
+                    <img src="./images/Dombay.jpg" alt="Высокий пик горы" class="element__image">
+                    <div class="element__group">
+                        <h2 class="element__title">Домбай</h2>
+                        <button class="element__like"></button>
+                    </div>
+                    
+                </div>
+                <div class="element">
+                    <img src="./images/Gora.jpg" alt="Гора в далеке" class="element__image">
+                    <div class="element__group">
+                        <h2 class="element__title">Гора Эльбрус</h2>
+                        <button class="element__like"></button>
+                    </div>
+                    
+                </div>
+                <div class="element">
+                    <img src="./images/Dombay.jpg" alt="Высокий пик горы" class="element__image">
+                    <div class="element__group">
+                        <h2 class="element__title">Домбай</h2>
+                        <button class="element__like"></button>
+                    </div>
+                    
+                </div>
+                <div class="element">
+                    <img src="./images/Karachaevo.jpg" alt="Дом в горах" class="element__image">
+                    <div class="element__group">
+                        <h2 class="element__title">Карачаево-Черкесская Республика</h2>
+                        <button class="element__like"></button>
+                    </div>
+                    
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="footer">
+            <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
+        </footer>
+
+    </div>
+
+    <section class="popup">
+        <form class="popup__container">
+            <h2 class="popup__title">Редактировать профиль</h2>
+            <input type="text" value="Жак-ив Кусто" class="popup__name">
+            <input type="text" value="Исследователь океана" class="popup__about-me">
+            <input type="submit" value="Сохранить" class="popup__button-save">
+            <button class="popup__button-close"></button>
+        </form>
+    </section>
+
+<script src="./scripts/index.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+.header {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    box-sizing: border-box;
+    max-width: 880px;
+    min-height: 74px;
+    margin: 0 auto 36px;
+    border-bottom: 1px solid #545454;
+}

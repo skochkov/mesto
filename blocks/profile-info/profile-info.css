@@ -1,0 +1,10 @@
+.profile-info {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0;
+    min-width: 336px;
+    max-width: 450px;
+    min-height: 80px;
+}
