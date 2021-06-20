@@ -14,3 +14,17 @@
     opacity: 0.6;
     cursor: pointer;
 }
+
+@media screen and (max-width: 768px) {
+    .profile__add-button {
+        max-width: 50px;
+    }
+}
+
+@media screen and (max-width: 619px) {
+    .profile__add-button {
+        max-width: 282px;
+        width: 100%;
+        margin: 0;
+    }
+}
