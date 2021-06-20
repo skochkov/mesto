@@ -1,17 +1,18 @@
-// console.log('Привет');
-
 let popup = document.querySelector('.popup');
 let popupCloseButton = popup.querySelector('.popup__button-close');
 let popupEditButton = document.querySelector('.profile-info__edit-button');
 
+// Функция открывает попап
 function popupOpen() {
     popup.classList.add('popup_opened');
 }
 
+// Функция закрывает попап
 function popupClose() {
     popup.classList.remove('popup_opened');
 }
 
+// Следим за событием 'click'
 popupEditButton.addEventListener('click', popupOpen);
 popupCloseButton.addEventListener('click', popupClose);
 
@@ -26,8 +27,11 @@ let jobInput = formElement.querySelector('.popup__about-me');
 function formSubmitHandler (evt) {
     evt.preventDefault();
 
-    document.querySelector('.profile-info__title').textContent = nameInput.value;
-    document.querySelector('.profile-info__sub-title').textContent = jobInput.value;
+    let title = document.querySelector('.profile-info__title');
+    let subTitle = document.querySelector('.profile-info__sub-title');
+
+    title.textContent = nameInput.value;
+    subTitle.textContent = jobInput.value;
 
     popupClose();
 
