@@ -1,21 +1,13 @@
 .profile-info {
-    position: relative;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    flex-wrap: wrap;
     margin: 0;
-    max-width: 450px;
+    max-width: 400px;
 }
 
-@media screen and (max-width: 882px) {
+@media screen and (max-width: 700px) {
     .profile-info {
-        max-width: 350px;
-        justify-content: start;
-    }
-}
-
-@media screen and (max-width: 619px) {
-    .profile-info {
+        position: relative;
         margin: 0 0 36px;
         max-width: 282px;
         width: 100%;
