@@ -21,4 +21,4 @@
 
 **ссылка на GitHub Pages**
 
-* https://skochkov.github.io/mesto/index.ru
+* https://skochkov.github.io/mesto/index.html

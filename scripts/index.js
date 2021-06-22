@@ -2,9 +2,20 @@ let popup = document.querySelector('.popup');
 let popupCloseButton = popup.querySelector('.popup__button-close');
 let popupEditButton = document.querySelector('.profile-info__edit-button');
 
+let title = document.querySelector('.profile-info__title');
+let subTitle = document.querySelector('.profile-info__sub-title');
+
+let formElement = document.querySelector('.popup__form');
+
+let nameInput = formElement.querySelector('.popup__input_type_name');
+let jobInput = formElement.querySelector('.popup__input_type_job');
+
 // Функция открывает попап
 function popupOpen() {
     popup.classList.add('popup_opened');
+    
+    nameInput.value = title.textContent;
+    jobInput.value = subTitle.textContent;
 }
 
 // Функция закрывает попап
@@ -16,19 +27,12 @@ function popupClose() {
 popupEditButton.addEventListener('click', popupOpen);
 popupCloseButton.addEventListener('click', popupClose);
 
-// Находим форму в DOM
-let formElement = document.querySelector('.popup__container');
-// Находим поля формы в DOM
-let nameInput = formElement.querySelector('.popup__name');
-let jobInput = formElement.querySelector('.popup__about-me');
-
 // Обработчик «отправки» формы, хотя пока
 // она никуда отправляться не будет
 function formSubmitHandler (evt) {
     evt.preventDefault();
 
-    let title = document.querySelector('.profile-info__title');
-    let subTitle = document.querySelector('.profile-info__sub-title');
+    
 
     title.textContent = nameInput.value;
     subTitle.textContent = jobInput.value;
