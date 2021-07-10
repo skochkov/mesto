@@ -1,0 +1,4 @@
+.element__like_status_active {
+    background: transparent center url(../../../../images/blackLike.svg);
+    cursor: pointer;
+}
