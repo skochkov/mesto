@@ -1,90 +1,87 @@
-const popupEdit = document.querySelector('#popupEdit');
+//Готов исправиться. Вынесу в отдельный файл. Подскажите как и где правильно подключать такие файлы?
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg',
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
+  }
+];
+
+
+
 const profile = document.querySelector('.profile');
-const popupButtonEdit = profile.querySelector('.profile-info__edit-button');
-const popupCloseButtonEditForm = popupEdit.querySelector('.popup__button-close');
-const popupImg = document.querySelector('#popupImg');
+const openProfilePopupButton = profile.querySelector('.profile-info__edit-button');
+const addCardPopupButton = profile.querySelector('.profile__add-button');
 
-let title = document.querySelector('.profile-info__title');
-let subTitle = document.querySelector('.profile-info__sub-title');
-
+const popupEdit = document.querySelector('#popup-Edit');
 const editFormElement = popupEdit.querySelector('.popup__form');
-
+const editFormPopupButtonClose = popupEdit.querySelector('.popup__button-close');
 let nameInput = editFormElement.querySelector('.popup__input_type_name');
 let jobInput = editFormElement.querySelector('.popup__input_type_job');
 
+const popupAdd = document.querySelector('#popup-Add');
+const addFormElement = popupAdd.querySelector('.popup__form');
+const addFormPopupButtonClose = popupAdd.querySelector('.popup__button-close');
+let placeNameInput = popupAdd.querySelector('.popup__input_type_place-name');
+let linkInput = popupAdd.querySelector('.popup__input_type_link');
+
+const popupImg = document.querySelector('#popup-Img');
+const popupImgButtonClose = popupImg.querySelector('.popup__button-close');
+let popupImgImage = popupImg.querySelector('.popup__img');
+let popupImgTitle = popupImg.querySelector('.popup__title');
+
+const userName = document.querySelector('.profile-info__title');
+const userJob = document.querySelector('.profile-info__sub-title');
+
+const elementTemplate = document.querySelector('#element').content;
+const elementList = document.querySelector('.elements__list');
+
+
 //функция открывает/закрывает popup
-function popupOpenClose (popup) {
+function togglePopupState (popup) {
   popup.classList.toggle('popup_opened');
 }
 
 // Функция открывает попап Edit
 function popupEditOpen() {
-    popupOpenClose(popupEdit);
+    togglePopupState(popupEdit);
     
-    nameInput.value = title.textContent;
-    jobInput.value = subTitle.textContent;
+    nameInput.value = userName.textContent;
+    jobInput.value = userJob.textContent;
 }
 
-// Следим за событием 'click'
-popupButtonEdit.addEventListener('click', popupEditOpen);
-popupCloseButtonEditForm.addEventListener('click', () => { popupOpenClose(popupEdit); });
+// Обработчик формы Изменения данных пользователя
+function editFormSubmitHandler (evt) {
+  evt.preventDefault();
 
-// Обработчик «отправки» формы, хотя пока
-// она никуда отправляться не будет
-function formEditSubmitHandler (evt) {
-    evt.preventDefault();
+  userName.textContent = nameInput.value;
+  userJob.textContent = jobInput.value;
 
-    title.textContent = nameInput.value;
-    subTitle.textContent = jobInput.value;
-
-    popupOpenClose(popupEdit);
+  togglePopupState(popupEdit);
 }
-
-// Прикрепляем обработчик к форме:
-// он будет следить за событием “submit” - «отправка»
-editFormElement.addEventListener('submit', formEditSubmitHandler);
-
-
-
-//Проектная работа №5__________________________________________________________________
-
-//1. Добавим карточки из массива объектов
-const initialCards = [
-    {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
-    },
-    {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
-    },
-    {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
-    },
-    {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg',
-    },
-    {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
-    },
-    {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
-    }
-  ];
-
-const elementTemplate = document.querySelector('#element').content;
-const elementList = document.querySelector('.elements__list');
-
-let imageBig = popupImg.querySelector('.popup__img');
-let popupTitle = popupImg.querySelector('.popup__title');
 
 // функция добавления модификатора класса для лайка
 function handlerLike(evt) {
-  let like = evt.target.closest('.element__like');
+  let like = evt.target;
   like.classList.toggle('element__like_status_active');
 }
 
@@ -95,82 +92,62 @@ function handlerDelete(evt) {
 }
 
 //функция открывает картинку на весь экран
-function popupOpenImg(evt) {
-  let imageSmall = evt.target.closest('.element__image');
+function popupImgOpen(evt) {
+  let imageSmall = evt.target;
   const element = evt.target.closest('.element');
   let text = element.querySelector('.element__title');
 
-  imageBig.src = imageSmall.src;
-  popupTitle.textContent = text.textContent;
+  popupImgImage.src = imageSmall.src;
+  popupImgImage.alt = imageSmall.alt;
+  popupImgTitle.textContent = text.textContent;
 
-  popupOpenClose(popupImg);
+  togglePopupState(popupImg);
 }
 
 //Функция вешает обработчики на кнопки в карточке
 function setEventListeners(contentClone) {
   contentClone.querySelector('.element__like').addEventListener('click', handlerLike);
   contentClone.querySelector('.element__trash').addEventListener('click', handlerDelete);
-  contentClone.querySelector('.element__image').addEventListener('click', popupOpenImg);
+  contentClone.querySelector('.element__image').addEventListener('click', popupImgOpen);
 }
 
-//Функция рендерит список карточек
-function renderElementsList (array) {
-  for (let i = 0; i < array.length; i++) {
-        
-        const contentClone = elementTemplate.cloneNode(true);
+//Функция рендерит карточку
+function renderCardElement (link, name) {
+  const contentClone = elementTemplate.cloneNode(true);
 
-        contentClone.querySelector('.element__image').src = array[i].link;
-        contentClone.querySelector('.element__title').textContent = array[i].name;
+  contentClone.querySelector('.element__image').src = link;
+  contentClone.querySelector('.element__title').textContent = name;
+  // вопрос про Alt. Мне, чтобы его добавить, надо так же в массив карточек добавить ключ Alt со значениями?
 
-        setEventListeners(contentClone);
+  setEventListeners(contentClone);
 
-        elementList.prepend(contentClone);
-  }
+  elementList.prepend(contentClone);
 }
 
-renderElementsList(initialCards);
-
-
-//2. Форма добавления карточки
-const popupAdd = document.querySelector('#popupAdd');
-const popupButtonAdd = profile.querySelector('.profile__add-button');
-const popupCloseButtonAddForm = popupAdd.querySelector('.popup__button-close');
-
-popupButtonAdd.addEventListener('click', () => {popupOpenClose(popupAdd)});
-popupCloseButtonAddForm.addEventListener('click', () => {popupOpenClose(popupAdd)});
-
-//3. Добавление карточки
-const addFormElement = popupAdd.querySelector('.popup__form');
-let placeNameInput = popupAdd.querySelector('.popup__input_type_place-name');
-let linkInput = popupAdd.querySelector('.popup__input_type_link');
-
-//Функция создания новой карточки
-function createNewCard(name,link) {
-  const array = [
-    {
-      name: name,
-      link: link,
-    }
-  ]
-
-  return array;
-}
-
-//обработка формы
+//обработка формы добавления карточки
 function formAddSubmitHandler (evt) {
   evt.preventDefault();
-  
-  let array = createNewCard(placeNameInput.value, linkInput.value);
 
-  renderElementsList(array);
-  popupOpenClose(popupAdd);
+  renderCardElement(linkInput.value, placeNameInput.value);
+  togglePopupState(popupAdd);
 }
 
-// Прикрепляем обработчик к форме:
+
+
+// Следим за событием 'click'
+openProfilePopupButton.addEventListener('click', popupEditOpen);
+editFormPopupButtonClose.addEventListener('click', () => { togglePopupState(popupEdit); });
+editFormElement.addEventListener('submit', editFormSubmitHandler);
+addCardPopupButton.addEventListener('click', () => {
+  togglePopupState(popupAdd);
+  placeNameInput.value ='';
+  linkInput.value = '';
+});
+addFormPopupButtonClose.addEventListener('click', () => {togglePopupState(popupAdd)});
 addFormElement.addEventListener('submit', formAddSubmitHandler);
-
-//закрываем попап с картинкой
-const popupImgButtonClose = popupImg.querySelector('.popup__button-close');
-popupImgButtonClose.addEventListener('click', () => {popupOpenClose(popupImg)});
+popupImgButtonClose.addEventListener('click', () => {togglePopupState(popupImg)});
 
 
+
+//Добавляем карточки на страницу из массива
+initialCards.forEach(item => renderCardElement(item.link, item.name));
