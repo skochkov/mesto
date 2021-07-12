@@ -1,68 +1,38 @@
-//Готов исправиться. Вынесу в отдельный файл. Подскажите как и где правильно подключать такие файлы?
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg',
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
-  }
-];
-
-
-
 const profile = document.querySelector('.profile');
 const openProfilePopupButton = profile.querySelector('.profile-info__edit-button');
 const addCardPopupButton = profile.querySelector('.profile__add-button');
 
-const popupEdit = document.querySelector('#popup-Edit');
+const popupEdit = document.querySelector('#popup-edit');
 const editFormElement = popupEdit.querySelector('.popup__form');
 const editFormPopupButtonClose = popupEdit.querySelector('.popup__button-close');
-let nameInput = editFormElement.querySelector('.popup__input_type_name');
-let jobInput = editFormElement.querySelector('.popup__input_type_job');
+const nameInput = editFormElement.querySelector('.popup__input_type_name');
+const jobInput = editFormElement.querySelector('.popup__input_type_job');
 
-const popupAdd = document.querySelector('#popup-Add');
+const popupAdd = document.querySelector('#popup-add');
 const addFormElement = popupAdd.querySelector('.popup__form');
 const addFormPopupButtonClose = popupAdd.querySelector('.popup__button-close');
-let placeNameInput = popupAdd.querySelector('.popup__input_type_place-name');
-let linkInput = popupAdd.querySelector('.popup__input_type_link');
+const placeNameInput = popupAdd.querySelector('.popup__input_type_place-name');
+const linkInput = popupAdd.querySelector('.popup__input_type_link');
 
-const popupImg = document.querySelector('#popup-Img');
+const popupImg = document.querySelector('#popup-img');
 const popupImgButtonClose = popupImg.querySelector('.popup__button-close');
-let popupImgImage = popupImg.querySelector('.popup__img');
-let popupImgTitle = popupImg.querySelector('.popup__title');
+const popupImgImage = popupImg.querySelector('.popup__img');
+const popupImgTitle = popupImg.querySelector('.popup__title');
 
 const userName = document.querySelector('.profile-info__title');
 const userJob = document.querySelector('.profile-info__sub-title');
 
 const elementTemplate = document.querySelector('#element').content;
-const elementList = document.querySelector('.elements__list');
+const elementContainer = document.querySelector('.elements__list');
 
 
 //функция открывает/закрывает popup
-function togglePopupState (popup) {
+function togglePopupState(popup) {
   popup.classList.toggle('popup_opened');
 }
 
 // Функция открывает попап Edit
-function popupEditOpen() {
+function openEditPopup() {
     togglePopupState(popupEdit);
     
     nameInput.value = userName.textContent;
@@ -70,7 +40,7 @@ function popupEditOpen() {
 }
 
 // Обработчик формы Изменения данных пользователя
-function editFormSubmitHandler (evt) {
+function editFormSubmitHandler(evt) {
   evt.preventDefault();
 
   userName.textContent = nameInput.value;
@@ -112,20 +82,20 @@ function setEventListeners(contentClone) {
 }
 
 //Функция рендерит карточку
-function renderCardElement (link, name) {
+function renderCardElement(link, name) {
   const contentClone = elementTemplate.cloneNode(true);
 
   contentClone.querySelector('.element__image').src = link;
+  contentClone.querySelector('.element__image').alt = name;
   contentClone.querySelector('.element__title').textContent = name;
-  // вопрос про Alt. Мне, чтобы его добавить, надо так же в массив карточек добавить ключ Alt со значениями?
 
   setEventListeners(contentClone);
 
-  elementList.prepend(contentClone);
+  elementContainer.prepend(contentClone);
 }
 
 //обработка формы добавления карточки
-function formAddSubmitHandler (evt) {
+function formAddSubmitHandler(evt) {
   evt.preventDefault();
 
   renderCardElement(linkInput.value, placeNameInput.value);
@@ -135,13 +105,12 @@ function formAddSubmitHandler (evt) {
 
 
 // Следим за событием 'click'
-openProfilePopupButton.addEventListener('click', popupEditOpen);
+openProfilePopupButton.addEventListener('click', openEditPopup);
 editFormPopupButtonClose.addEventListener('click', () => { togglePopupState(popupEdit); });
 editFormElement.addEventListener('submit', editFormSubmitHandler);
 addCardPopupButton.addEventListener('click', () => {
   togglePopupState(popupAdd);
-  placeNameInput.value ='';
-  linkInput.value = '';
+  addFormElement.reset();
 });
 addFormPopupButtonClose.addEventListener('click', () => {togglePopupState(popupAdd)});
 addFormElement.addEventListener('submit', formAddSubmitHandler);
