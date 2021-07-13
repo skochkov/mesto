@@ -51,21 +51,21 @@ function editFormSubmitHandler(evt) {
 
 // функция добавления модификатора класса для лайка
 function handlerLike(evt) {
-  let like = evt.target;
+  const like = evt.target;
   like.classList.toggle('element__like_status_active');
 }
 
 // Функция удаления карточки
 function handlerDelete(evt) {
-  const itemDelete = evt.target.closest('.element');
-  itemDelete.remove();
+  const cardDelete = evt.target.closest('.element');
+  cardDelete.remove();
 }
 
 //функция открывает картинку на весь экран
 function popupImgOpen(evt) {
-  let imageSmall = evt.target;
-  const element = evt.target.closest('.element');
-  let text = element.querySelector('.element__title');
+  const imageSmall = evt.target;
+  const cardElement = evt.target.closest('.element');
+  const text = cardElement.querySelector('.element__title');
 
   popupImgImage.src = imageSmall.src;
   popupImgImage.alt = imageSmall.alt;
