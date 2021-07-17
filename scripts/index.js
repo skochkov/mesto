@@ -31,6 +31,24 @@ function togglePopupState(popup) {
   popup.classList.toggle('popup_opened');
 }
 
+//функция закрывает popup кликом на overlay
+function closePopupByClickOnOverlay(evt) {
+  if(evt.target.classList.contains('popup')) {
+    const openPopup = document.querySelector('.popup_opened');
+    togglePopupState(openPopup);
+  }
+}
+
+//функция закрывает popup кликом на Esc
+function closePopupByButtonEsc(evt) {
+  const openPopup = document.querySelector('.popup_opened');
+
+  if(evt.key === 'Escape' && openPopup) {
+    togglePopupState(openPopup);
+  }
+}
+
+
 // Функция открывает попап Edit
 function openEditPopup() {
     togglePopupState(popupEdit);
@@ -65,17 +83,17 @@ function handlerDelete(evt) {
 function popupImgOpen(evt) {
   const imageSmall = evt.target;
   const cardElement = evt.target.closest('.element');
-  const text = cardElement.querySelector('.element__title');
+  const placeNameElement = cardElement.querySelector('.element__title');
 
   popupImgImage.src = imageSmall.src;
   popupImgImage.alt = imageSmall.alt;
-  popupImgTitle.textContent = text.textContent;
+  popupImgTitle.textContent = placeNameElement.textContent;
 
   togglePopupState(popupImg);
 }
 
 //Функция вешает обработчики на кнопки в карточке
-function setEventListeners(contentClone) {
+function setCardEventListeners(contentClone) {
   contentClone.querySelector('.element__like').addEventListener('click', handlerLike);
   contentClone.querySelector('.element__trash').addEventListener('click', handlerDelete);
   contentClone.querySelector('.element__image').addEventListener('click', popupImgOpen);
@@ -89,7 +107,7 @@ function renderCardElement(link, name) {
   contentClone.querySelector('.element__image').alt = name;
   contentClone.querySelector('.element__title').textContent = name;
 
-  setEventListeners(contentClone);
+  setCardEventListeners(contentClone);
 
   elementContainer.prepend(contentClone);
 }
@@ -105,6 +123,8 @@ function formAddSubmitHandler(evt) {
 
 
 // Следим за событием 'click'
+document.addEventListener('click', closePopupByClickOnOverlay);
+document.addEventListener('keydown', closePopupByButtonEsc);
 openProfilePopupButton.addEventListener('click', openEditPopup);
 editFormPopupButtonClose.addEventListener('click', () => { togglePopupState(popupEdit); });
 editFormElement.addEventListener('submit', editFormSubmitHandler);
