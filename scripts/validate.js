@@ -1,17 +1,27 @@
+const config = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button-save',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_state_error',
+    errorClass: 'popup__input-error_active',
+  }
+
+
 const showMessageError = (inputElement, errorMessage) => {
     const errorElement = inputElement.closest('.popup__section').querySelector('.popup__input-error');
     
     errorElement.textContent = errorMessage;
-    errorElement.classList.add('popup__input-error_active');
-    inputElement.classList.add('popup__input_state_error');
+    errorElement.classList.add(config.errorClass);
+    inputElement.classList.add(config.inputErrorClass);
 }
 
 const hideMessageError = (inputElement) => {
     const errorElement = inputElement.closest('.popup__section').querySelector('.popup__input-error');
 
     errorElement.textContent = '';
-    errorElement.classList.remove('popup__input-error_active');
-    inputElement.classList.remove('popup__input_state_error');
+    errorElement.classList.remove(config.errorClass);
+    inputElement.classList.remove(config.inputErrorClass);
 }
 
 const toggleButtonState = (inputList, buttonElement) => {
@@ -40,8 +50,8 @@ const setFormEventListeners = (formElement) => {
         evt.preventDefault();
     })
 
-    const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
-    const buttonElement = formElement.querySelector('.popup__button-save');
+    const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
+    const buttonElement = formElement.querySelector(config.submitButtonSelector);
 
     inputList.forEach(inputElement => {
         inputElement.addEventListener('input', (evt) => {
@@ -54,10 +64,10 @@ const setFormEventListeners = (formElement) => {
 }
 
 const enableValidation = () => {
-    const formList = Array.from(document.querySelectorAll('.popup__form'));
+    const formList = Array.from(document.querySelectorAll(config.formSelector));
 
     formList.forEach(setFormEventListeners);
 }
 
 
-enableValidation();
+enableValidation(config);

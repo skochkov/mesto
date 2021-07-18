@@ -26,16 +26,25 @@ const elementTemplate = document.querySelector('#element').content;
 const elementContainer = document.querySelector('.elements__list');
 
 
-//функция открывает/закрывает popup
-function togglePopupState(popup) {
-  popup.classList.toggle('popup_opened');
+//функция открывает popup
+function openPopup(popup) {
+  popup.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupByButtonEsc);
+  document.addEventListener('click', closePopupByClickOnOverlay);
+}
+
+//функция закрывает popup
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupByButtonEsc);
+  document.removeEventListener('click', closePopupByClickOnOverlay);
 }
 
 //функция закрывает popup кликом на overlay
 function closePopupByClickOnOverlay(evt) {
   if(evt.target.classList.contains('popup')) {
     const openPopup = document.querySelector('.popup_opened');
-    togglePopupState(openPopup);
+    closePopup(openPopup);
   }
 }
 
@@ -44,14 +53,14 @@ function closePopupByButtonEsc(evt) {
   const openPopup = document.querySelector('.popup_opened');
 
   if(evt.key === 'Escape' && openPopup) {
-    togglePopupState(openPopup);
+    closePopup(openPopup);
   }
 }
 
 
 // Функция открывает попап Edit
 function openEditPopup() {
-    togglePopupState(popupEdit);
+    openPopup(popupEdit);
     
     nameInput.value = userName.textContent;
     jobInput.value = userJob.textContent;
@@ -64,7 +73,7 @@ function editFormSubmitHandler(evt) {
   userName.textContent = nameInput.value;
   userJob.textContent = jobInput.value;
 
-  togglePopupState(popupEdit);
+  closePopup(popupEdit);
 }
 
 // функция добавления модификатора класса для лайка
@@ -89,7 +98,7 @@ function popupImgOpen(evt) {
   popupImgImage.alt = imageSmall.alt;
   popupImgTitle.textContent = placeNameElement.textContent;
 
-  togglePopupState(popupImg);
+  openPopup(popupImg);
 }
 
 //Функция вешает обработчики на кнопки в карточке
@@ -109,34 +118,43 @@ function renderCardElement(link, name) {
 
   setCardEventListeners(contentClone);
 
-  elementContainer.prepend(contentClone);
+  return contentClone;
+}
+
+//функия добавления карточки
+function addCard(container, cardElement) {
+  container.prepend(cardElement);
+}
+
+//Функция Блокировки кнопки
+function blockButton(evt) {
+  evt.submitter.setAttribute('disabled', true)
 }
 
 //обработка формы добавления карточки
 function formAddSubmitHandler(evt) {
   evt.preventDefault();
 
-  renderCardElement(linkInput.value, placeNameInput.value);
-  togglePopupState(popupAdd);
+  addCard(elementContainer, renderCardElement(linkInput.value, placeNameInput.value));
+  blockButton(evt);
+  closePopup(popupAdd);
 }
 
 
 
 // Следим за событием 'click'
-document.addEventListener('click', closePopupByClickOnOverlay);
-document.addEventListener('keydown', closePopupByButtonEsc);
 openProfilePopupButton.addEventListener('click', openEditPopup);
-editFormPopupButtonClose.addEventListener('click', () => { togglePopupState(popupEdit); });
+editFormPopupButtonClose.addEventListener('click', () => { closePopup(popupEdit); });
 editFormElement.addEventListener('submit', editFormSubmitHandler);
 addCardPopupButton.addEventListener('click', () => {
-  togglePopupState(popupAdd);
+  openPopup(popupAdd);
   addFormElement.reset();
 });
-addFormPopupButtonClose.addEventListener('click', () => {togglePopupState(popupAdd)});
+addFormPopupButtonClose.addEventListener('click', () => {closePopup(popupAdd)});
 addFormElement.addEventListener('submit', formAddSubmitHandler);
-popupImgButtonClose.addEventListener('click', () => {togglePopupState(popupImg)});
+popupImgButtonClose.addEventListener('click', () => {closePopup(popupImg)});
 
 
 
 //Добавляем карточки на страницу из массива
-initialCards.forEach(item => renderCardElement(item.link, item.name));
+initialCards.forEach(item => addCard(elementContainer, renderCardElement(item.link, item.name)));
