@@ -1,3 +1,7 @@
+import Card from './Card.js';
+import {FormValidator, config} from './FormValidator.js';
+import {initialCards, popupImg} from './constants.js';
+
 const profile = document.querySelector('.profile');
 const openProfilePopupButton = profile.querySelector('.profile-info__edit-button');
 const addCardPopupButton = profile.querySelector('.profile__add-button');
@@ -14,16 +18,13 @@ const addFormPopupButtonClose = popupAdd.querySelector('.popup__button-close');
 const placeNameInput = popupAdd.querySelector('.popup__input_type_place-name');
 const linkInput = popupAdd.querySelector('.popup__input_type_link');
 
-const popupImg = document.querySelector('#popup-img');
-const popupImgButtonClose = popupImg.querySelector('.popup__button-close');
-const popupImgImage = popupImg.querySelector('.popup__img');
-const popupImgTitle = popupImg.querySelector('.popup__title');
-
 const userName = document.querySelector('.profile-info__title');
 const userJob = document.querySelector('.profile-info__sub-title');
 
 const elementTemplate = document.querySelector('#element').content;
 const elementContainer = document.querySelector('.elements__list');
+const formList = Array.from(document.querySelectorAll(config.formSelector));
+
 
 
 //функция открывает popup
@@ -41,7 +42,7 @@ function closePopup(popup) {
 }
 
 //функция закрывает popup кликом на overlay
-function closePopupByClickOnOverlay(evt) {
+  function closePopupByClickOnOverlay(evt) {
   if(evt.target.classList.contains('popup')) {
     const openPopup = document.querySelector('.popup_opened');
     closePopup(openPopup);
@@ -49,7 +50,7 @@ function closePopupByClickOnOverlay(evt) {
 }
 
 //функция закрывает popup кликом на Esc
-function closePopupByButtonEsc(evt) {
+  function closePopupByButtonEsc(evt) {
   const openPopup = document.querySelector('.popup_opened');
 
   if(evt.key === 'Escape' && openPopup) {
@@ -61,7 +62,7 @@ function closePopupByButtonEsc(evt) {
 // Функция открывает попап Edit
 function openEditPopup() {
     openPopup(popupEdit);
-    
+
     nameInput.value = userName.textContent;
     jobInput.value = userJob.textContent;
 }
@@ -88,25 +89,16 @@ function handlerDelete(evt) {
   cardDelete.remove();
 }
 
-//функция открывает картинку на весь экран
-function popupImgOpen(evt) {
-  const imageSmall = evt.target;
-  const cardElement = evt.target.closest('.element');
-  const placeNameElement = cardElement.querySelector('.element__title');
-
-  popupImgImage.src = imageSmall.src;
-  popupImgImage.alt = imageSmall.alt;
-  popupImgTitle.textContent = placeNameElement.textContent;
-
-  openPopup(popupImg);
-}
-
 //Функция вешает обработчики на кнопки в карточке
 function setCardEventListeners(contentClone) {
   contentClone.querySelector('.element__like').addEventListener('click', handlerLike);
   contentClone.querySelector('.element__trash').addEventListener('click', handlerDelete);
-  contentClone.querySelector('.element__image').addEventListener('click', popupImgOpen);
-}
+  //contentClone.querySelector('.element__image').addEventListener('click', popupImgOpen);
+
+
+}// Реализовать добавление новой карточки через ООП!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
 
 //Функция рендерит карточку
 function renderCardElement(link, name) {
@@ -121,7 +113,7 @@ function renderCardElement(link, name) {
   return contentClone;
 }
 
-//функия добавления карточки
+// //функия добавления карточки
 function addCard(container, cardElement) {
   container.prepend(cardElement);
 }
@@ -136,7 +128,7 @@ function formAddSubmitHandler(evt) {
   evt.preventDefault();
 
   addCard(elementContainer, renderCardElement(linkInput.value, placeNameInput.value));
-  blockButton(evt);
+  //blockButton(evt);
   closePopup(popupAdd);
 }
 
@@ -152,9 +144,19 @@ addCardPopupButton.addEventListener('click', () => {
 });
 addFormPopupButtonClose.addEventListener('click', () => {closePopup(popupAdd)});
 addFormElement.addEventListener('submit', formAddSubmitHandler);
-popupImgButtonClose.addEventListener('click', () => {closePopup(popupImg)});
 
 
+//Добавляем карточки на страницу из массива с помощью Класса Card
+initialCards.forEach(item => {
+  const card = new Card(item.name, item.link, '#element')
+  const cardElement = card.render()
+  elementContainer.prepend(cardElement)
+})
 
-//Добавляем карточки на страницу из массива
-initialCards.forEach(item => addCard(elementContainer, renderCardElement(item.link, item.name)));
+//Включаем валидацию форм
+
+const validationEditForm = new FormValidator(config, editFormElement)
+const validationAddForm = new FormValidator(config, addFormElement)
+
+validationEditForm.enableValidation()
+validationAddForm.enableValidation()

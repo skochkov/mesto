@@ -10,7 +10,7 @@ const config = {
 
 const showMessageError = (inputElement, errorMessage) => {
     const errorElement = inputElement.closest('.popup__section').querySelector('.popup__input-error');
-    
+
     errorElement.textContent = errorMessage;
     errorElement.classList.add(config.errorClass);
     inputElement.classList.add(config.inputErrorClass);
@@ -25,7 +25,7 @@ const hideMessageError = (inputElement) => {
 }
 
 const toggleButtonState = (inputList, buttonElement) => {
-    const hasNotValidInput = inputList.some((inputElement) => !inputElement.validity.valid) 
+    const hasNotValidInput = inputList.some((inputElement) => !inputElement.validity.valid)
 
     if(hasNotValidInput) {
         buttonElement.setAttribute('disabled', true);
@@ -37,13 +37,13 @@ const toggleButtonState = (inputList, buttonElement) => {
 const checkInputValidity = (inputElement) => {
     const isInputElementValid = inputElement.validity.valid;
     const errorMessage = inputElement.validationMessage;
-    
+
     if(!isInputElementValid) {
         showMessageError(inputElement, errorMessage)
     } else {
         hideMessageError(inputElement)
     }
-} 
+}
 
 const setFormEventListeners = (formElement) => {
     formElement.addEventListener('submit', (evt) => {
