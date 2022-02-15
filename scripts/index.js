@@ -1,121 +1,80 @@
-import Card from './Card.js';
-import {FormValidator, config} from './FormValidator.js';
-import {initialCards, popupImg} from './constants.js';
+import Card from './Card.js'
+import {FormValidator, config} from './FormValidator.js'
+import {initialCards} from './constants.js'
 
-const profile = document.querySelector('.profile');
-const openProfilePopupButton = profile.querySelector('.profile-info__edit-button');
-const addCardPopupButton = profile.querySelector('.profile__add-button');
+const profile = document.querySelector('.profile')
+const openProfilePopupButton = profile.querySelector('.profile-info__edit-button')
+const addCardPopupButton = profile.querySelector('.profile__add-button')
 
-const popupEdit = document.querySelector('#popup-edit');
-const editFormElement = popupEdit.querySelector('.popup__form');
-const editFormPopupButtonClose = popupEdit.querySelector('.popup__button-close');
-const nameInput = editFormElement.querySelector('.popup__input_type_name');
-const jobInput = editFormElement.querySelector('.popup__input_type_job');
+const popupEdit = document.querySelector('#popup-edit')
+const editFormElement = popupEdit.querySelector('.popup__form')
+const editFormPopupButtonClose = popupEdit.querySelector('.popup__button-close')
+const nameInput = editFormElement.querySelector('.popup__input_type_name')
+const jobInput = editFormElement.querySelector('.popup__input_type_job')
 
-const popupAdd = document.querySelector('#popup-add');
-const addFormElement = popupAdd.querySelector('.popup__form');
-const addFormPopupButtonClose = popupAdd.querySelector('.popup__button-close');
-const placeNameInput = popupAdd.querySelector('.popup__input_type_place-name');
-const linkInput = popupAdd.querySelector('.popup__input_type_link');
+const popupAdd = document.querySelector('#popup-add')
+const addFormElement = popupAdd.querySelector('.popup__form')
+const addFormPopupButtonClose = popupAdd.querySelector('.popup__button-close')
+const placeNameInput = popupAdd.querySelector('.popup__input_type_place-name')
+const linkInput = popupAdd.querySelector('.popup__input_type_link')
 
-const userName = document.querySelector('.profile-info__title');
-const userJob = document.querySelector('.profile-info__sub-title');
+const userName = document.querySelector('.profile-info__title')
+const userJob = document.querySelector('.profile-info__sub-title')
 
-const elementTemplate = document.querySelector('#element').content;
-const elementContainer = document.querySelector('.elements__list');
-const formList = Array.from(document.querySelectorAll(config.formSelector));
+const elementContainer = document.querySelector('.elements__list')
+
 
 
 
 //функция открывает popup
 function openPopup(popup) {
-  popup.classList.add('popup_opened');
-  document.addEventListener('keydown', closePopupByButtonEsc);
-  document.addEventListener('click', closePopupByClickOnOverlay);
+  popup.classList.add('popup_opened')
+  document.addEventListener('keydown', closePopupByButtonEsc)
+  document.addEventListener('click', closePopupByClickOnOverlay)
 }
 
 //функция закрывает popup
 function closePopup(popup) {
-  popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closePopupByButtonEsc);
-  document.removeEventListener('click', closePopupByClickOnOverlay);
+  popup.classList.remove('popup_opened')
+  document.removeEventListener('keydown', closePopupByButtonEsc())
+  document.removeEventListener('click', closePopupByClickOnOverlay())
 }
 
 //функция закрывает popup кликом на overlay
   function closePopupByClickOnOverlay(evt) {
   if(evt.target.classList.contains('popup')) {
-    const openPopup = document.querySelector('.popup_opened');
-    closePopup(openPopup);
+    const openPopup = document.querySelector('.popup_opened')
+    closePopup(openPopup)
   }
 }
 
 //функция закрывает popup кликом на Esc
   function closePopupByButtonEsc(evt) {
-  const openPopup = document.querySelector('.popup_opened');
+  const openPopup = document.querySelector('.popup_opened')
 
   if(evt.key === 'Escape' && openPopup) {
-    closePopup(openPopup);
+    closePopup(openPopup)
   }
+
 }
 
 
 // Функция открывает попап Edit
 function openEditPopup() {
-    openPopup(popupEdit);
+    openPopup(popupEdit)
 
-    nameInput.value = userName.textContent;
-    jobInput.value = userJob.textContent;
+    nameInput.value = userName.textContent
+    jobInput.value = userJob.textContent
 }
 
 // Обработчик формы Изменения данных пользователя
 function editFormSubmitHandler(evt) {
   evt.preventDefault();
 
-  userName.textContent = nameInput.value;
-  userJob.textContent = jobInput.value;
+  userName.textContent = nameInput.value
+  userJob.textContent = jobInput.value
 
-  closePopup(popupEdit);
-}
-
-// функция добавления модификатора класса для лайка
-function handlerLike(evt) {
-  const like = evt.target;
-  like.classList.toggle('element__like_status_active');
-}
-
-// Функция удаления карточки
-function handlerDelete(evt) {
-  const cardDelete = evt.target.closest('.element');
-  cardDelete.remove();
-}
-
-//Функция вешает обработчики на кнопки в карточке
-function setCardEventListeners(contentClone) {
-  contentClone.querySelector('.element__like').addEventListener('click', handlerLike);
-  contentClone.querySelector('.element__trash').addEventListener('click', handlerDelete);
-  //contentClone.querySelector('.element__image').addEventListener('click', popupImgOpen);
-
-
-}// Реализовать добавление новой карточки через ООП!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-
-//Функция рендерит карточку
-function renderCardElement(link, name) {
-  const contentClone = elementTemplate.cloneNode(true);
-
-  contentClone.querySelector('.element__image').src = link;
-  contentClone.querySelector('.element__image').alt = name;
-  contentClone.querySelector('.element__title').textContent = name;
-
-  setCardEventListeners(contentClone);
-
-  return contentClone;
-}
-
-// //функия добавления карточки
-function addCard(container, cardElement) {
-  container.prepend(cardElement);
+  closePopup(popupEdit)
 }
 
 //Функция Блокировки кнопки
@@ -123,12 +82,15 @@ function blockButton(evt) {
   evt.submitter.setAttribute('disabled', true)
 }
 
-//обработка формы добавления карточки
+//обработка формы добавления карточки с помощью ООП
 function formAddSubmitHandler(evt) {
-  evt.preventDefault();
+  evt.preventDefault()
 
-  addCard(elementContainer, renderCardElement(linkInput.value, placeNameInput.value));
-  //blockButton(evt);
+  const card = new Card(placeNameInput.value, linkInput.value, '#element')
+  const cardElement = card.render()
+  elementContainer.prepend(cardElement)
+
+  blockButton(evt);
   closePopup(popupAdd);
 }
 
@@ -153,7 +115,7 @@ initialCards.forEach(item => {
   elementContainer.prepend(cardElement)
 })
 
-//Включаем валидацию форм
+//Включаем валидацию форм с помощью класса FormValidator
 
 const validationEditForm = new FormValidator(config, editFormElement)
 const validationAddForm = new FormValidator(config, addFormElement)
