@@ -1,4 +1,4 @@
-import {popupImg as popup, popupImgButtonClose} from './constants.js';
+import {popupImg as popup, openPopup, popupImage, popupTitle, popupImg} from './index.js'
 
 export default class Card {
 
@@ -6,6 +6,7 @@ export default class Card {
       this._title = title
       this._image = image
       this._template = template
+
     }
 
     _getTemplate() {
@@ -41,19 +42,11 @@ export default class Card {
       }
 
     _handlerImageOpen() {
-        const popupImage = popup.querySelector('.popup__img')
-        const popupTitle = popup.querySelector('.popup__title')
-
         popupImage.src = this._image
         popupTitle.textContent = this._title
 
-        popup.classList.add('popup_opened')
+        openPopup(popupImg)
 
-        popupImgButtonClose.addEventListener('click', () => this._handlerImageClose())
-      }
-
-    _handlerImageClose() {
-        popup.classList.remove('popup_opened')
       }
 
     render = () => {

@@ -25,7 +25,4 @@ const initialCards = [
     }
   ];
 
-const popupImg = document.querySelector('#popup-img');
-const popupImgButtonClose = popupImg.querySelector('.popup__button-close');
-
-  export {initialCards, popupImg, popupImgButtonClose};
+  export {initialCards}
