@@ -43,6 +43,7 @@ export default class Card {
 
     _handlerImageOpen() {
         popupImage.src = this._image
+        popupImage.alt = this._title
         popupTitle.textContent = this._title
 
         openPopup(popupImg)
@@ -50,10 +51,11 @@ export default class Card {
       }
 
     render = () => {
-        this._element = this._getTemplate();
-        this._setEventListeners();
+        this._element = this._getTemplate()
+        this._setEventListeners()
 
-        this._element.querySelector('.element__image').src = this._image;
+        this._element.querySelector('.element__image').src = this._image
+        this._element.querySelector('.element__image').alt = this._title
         this._element.querySelector('.element__title').textContent = this._title;
 
         return this._element

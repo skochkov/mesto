@@ -8,46 +8,61 @@ const addCardPopupButton = profile.querySelector('.profile__add-button')
 
 const popupEdit = document.querySelector('#popup-edit')
 const editFormElement = popupEdit.querySelector('.popup__form')
-const editFormPopupButtonClose = popupEdit.querySelector('.popup__button-close')
 const nameInput = editFormElement.querySelector('.popup__input_type_name')
 const jobInput = editFormElement.querySelector('.popup__input_type_job')
 
 const popupAdd = document.querySelector('#popup-add')
 const addFormElement = popupAdd.querySelector('.popup__form')
-const addFormPopupButtonClose = popupAdd.querySelector('.popup__button-close')
 const placeNameInput = popupAdd.querySelector('.popup__input_type_place-name')
 const linkInput = popupAdd.querySelector('.popup__input_type_link')
 
 const popupImg = document.querySelector('#popup-img')
 const popupImage = popupImg.querySelector('.popup__img')
 const popupTitle = popupImg.querySelector('.popup__title')
-const popupImgButtonClose = popupImg.querySelector('.popup__button-close')
+
+const popups = document.querySelectorAll('.popup')
 
 const userName = document.querySelector('.profile-info__title')
 const userJob = document.querySelector('.profile-info__sub-title')
 
 const elementContainer = document.querySelector('.elements__list')
 
+const validationEditForm = new FormValidator(config, editFormElement)
+const validationAddForm = new FormValidator(config, addFormElement)
+
 
 //функция открывает popup
 function openPopup(popup) {
   popup.classList.add('popup_opened')
-  document.addEventListener('keydown', function(event) {
-    const key = event.key
-    if(key === 'Escape') {
-      closePopup(popup)
-    }
-  })
-  document.addEventListener('click', function(event) {
-    if(event.target.classList.contains('popup')) {
-      closePopup(popup)
-    }
-  })
+  document.addEventListener('keydown', closePopupByEsc)
+  document.addEventListener('click', closePopupByOverlay)
+
+  validationAddForm.resetValidation()
+  validationEditForm.resetValidation()
 }
 
 //функция закрывает popup
 function closePopup(popup) {
   popup.classList.remove('popup_opened')
+
+  document.removeEventListener('keydown', closePopupByEsc)
+  document.removeEventListener('click', closePopupByOverlay)
+}
+
+//Функция закрывает popup на Esc
+function closePopupByEsc(evt) {
+  if(evt.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened')
+    closePopup(openedPopup)
+  }
+}
+
+//Функция закрывает popup по Overlay
+function closePopupByOverlay(evt) {
+  if(evt.target.classList.contains('popup')) {
+    const openedPopup = document.querySelector('.popup_opened')
+    closePopup(openedPopup)
+  }
 }
 
 // Функция открывает попап Edit
@@ -73,15 +88,26 @@ function blockButton(evt) {
   evt.submitter.setAttribute('disabled', true)
 }
 
+//функция создания карточки
+function createCard(item) {
+  const card = new Card(item.name, item.link, '#element')
+  const cardElement = card.render()
+  return cardElement
+}
+
 //обработка формы добавления карточки с помощью ООП
 function formAddSubmitHandler(evt) {
   evt.preventDefault()
 
-  const card = new Card(placeNameInput.value, linkInput.value, '#element')
-  const cardElement = card.render()
-  elementContainer.prepend(cardElement)
+  const inputs = [
+    {
+      name: placeNameInput.value,
+      link: linkInput.value,
+    }
+  ]
 
-  blockButton(evt);
+  inputs.forEach(item => elementContainer.prepend(createCard(item)))
+
   closePopup(popupAdd);
 }
 
@@ -89,28 +115,38 @@ function formAddSubmitHandler(evt) {
 
 // Следим за событием 'click'
 openProfilePopupButton.addEventListener('click', openEditPopup)
-editFormPopupButtonClose.addEventListener('click', () => { closePopup(popupEdit) })
+
+popups.forEach((popup) => {
+  popup.addEventListener('click', (evt) => {
+    if(evt.target.classList.contains('.popup_opened')) {
+      closePopup(popup)
+    }
+    if(evt.target.classList.contains('popup__button-close')) {
+      closePopup(popup)
+    }
+  })
+})
+
 editFormElement.addEventListener('submit', editFormSubmitHandler)
 addCardPopupButton.addEventListener('click', () => {
   openPopup(popupAdd)
   addFormElement.reset()
 })
-addFormPopupButtonClose.addEventListener('click', () => {closePopup(popupAdd)})
+
 addFormElement.addEventListener('submit', formAddSubmitHandler)
-popupImgButtonClose.addEventListener('click', () => {closePopup(popupImg)})
+
 
 
 //Добавляем карточки на страницу из массива с помощью Класса Card
 initialCards.forEach(item => {
-  const card = new Card(item.name, item.link, '#element')
-  const cardElement = card.render()
-  elementContainer.prepend(cardElement)
+  // const card = new Card(item.name, item.link, '#element')
+  // const cardElement = card.render()
+
+
+  elementContainer.prepend(createCard(item))
 })
 
 //Включаем валидацию форм с помощью класса FormValidator
-
-const validationEditForm = new FormValidator(config, editFormElement)
-const validationAddForm = new FormValidator(config, addFormElement)
 
 validationEditForm.enableValidation()
 validationAddForm.enableValidation()
