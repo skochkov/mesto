@@ -36,13 +36,13 @@ function openPopup(popup) {
   popup.classList.add('popup_opened')
   document.addEventListener('keydown', closePopupByEsc)
 
-  const form = popup.querySelector('.popup__form')
+  // const form = popup.querySelector('.popup__form')
 
-  if(form) {
-    const validationForm = new FormValidator(config, form)
+  // if(form) {
+  //   const validationForm = new FormValidator(config, form)
 
-  validationForm.resetValidation()
-  }
+  // validationForm.resetValidation()
+  // }
 
 }
 
@@ -64,6 +64,7 @@ function closePopupByEsc(evt) {
 // Функция открывает попап Edit
 function openEditPopup() {
     openPopup(popupEdit)
+    validationEditForm.resetValidation()
 
     nameInput.value = userName.textContent
     jobInput.value = userJob.textContent
@@ -121,6 +122,7 @@ popups.forEach((popup) => {
 editFormElement.addEventListener('submit', editFormSubmitHandler)
 addCardPopupButton.addEventListener('click', () => {
   openPopup(popupAdd)
+  validationAddForm.resetValidation()
   addFormElement.reset()
 })
 
