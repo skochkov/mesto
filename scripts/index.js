@@ -35,10 +35,15 @@ const validationAddForm = new FormValidator(config, addFormElement)
 function openPopup(popup) {
   popup.classList.add('popup_opened')
   document.addEventListener('keydown', closePopupByEsc)
-  document.addEventListener('click', closePopupByOverlay)
 
-  validationAddForm.resetValidation()
-  validationEditForm.resetValidation()
+  const form = popup.querySelector('.popup__form')
+
+  if(form) {
+    const validationForm = new FormValidator(config, form)
+
+  validationForm.resetValidation()
+  }
+
 }
 
 //функция закрывает popup
@@ -46,20 +51,11 @@ function closePopup(popup) {
   popup.classList.remove('popup_opened')
 
   document.removeEventListener('keydown', closePopupByEsc)
-  document.removeEventListener('click', closePopupByOverlay)
 }
 
 //Функция закрывает popup на Esc
 function closePopupByEsc(evt) {
   if(evt.key === 'Escape') {
-    const openedPopup = document.querySelector('.popup_opened')
-    closePopup(openedPopup)
-  }
-}
-
-//Функция закрывает popup по Overlay
-function closePopupByOverlay(evt) {
-  if(evt.target.classList.contains('popup')) {
     const openedPopup = document.querySelector('.popup_opened')
     closePopup(openedPopup)
   }
@@ -83,11 +79,6 @@ function editFormSubmitHandler(evt) {
   closePopup(popupEdit)
 }
 
-//Функция Блокировки кнопки
-function blockButton(evt) {
-  evt.submitter.setAttribute('disabled', true)
-}
-
 //функция создания карточки
 function createCard(item) {
   const card = new Card(item.name, item.link, '#element')
@@ -96,7 +87,7 @@ function createCard(item) {
 }
 
 //обработка формы добавления карточки с помощью ООП
-function formAddSubmitHandler(evt) {
+function addFormSubmitHandler(evt) {
   evt.preventDefault()
 
   const inputs = [
@@ -118,7 +109,7 @@ openProfilePopupButton.addEventListener('click', openEditPopup)
 
 popups.forEach((popup) => {
   popup.addEventListener('click', (evt) => {
-    if(evt.target.classList.contains('.popup_opened')) {
+    if(evt.target.classList.contains('popup_opened')) {
       closePopup(popup)
     }
     if(evt.target.classList.contains('popup__button-close')) {
@@ -133,7 +124,7 @@ addCardPopupButton.addEventListener('click', () => {
   addFormElement.reset()
 })
 
-addFormElement.addEventListener('submit', formAddSubmitHandler)
+addFormElement.addEventListener('submit', addFormSubmitHandler)
 
 
 
