@@ -12,12 +12,12 @@ const editButton = document.querySelector('.profile-info__edit-button')
 const addButton = document.querySelector('.profile__add-button')
 
 // const popupEdit = document.querySelector('#popup-edit')
-const editForm = document.querySelector('.popup__form_edit_profile')
+const editForm = document.querySelector('.popup_edit_profile')
 const nameInput = editForm.querySelector('.popup__input_type_name')
 const infoInput = editForm.querySelector('.popup__input_type_job')
 
 // const popupAdd = document.querySelector('#popup-add')
-const addForm = document.querySelector('.popup__form_add_card')
+const addForm = document.querySelector('.popup_add_card')
 const elementContainer = document.querySelector('.elements__list')
 
 const profileName = document.querySelector('.profile-info__title')
