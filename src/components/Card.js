@@ -32,7 +32,8 @@ export default class Card {
     }
 
     _handlerDelete() {
-        this._element.remove();
+        this._element.remove()
+        this._element = null
       }
 
     _handlerLike() {
