@@ -25,13 +25,16 @@ const initialCards = [
     }
   ]
 
-  const config = {
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__button-save',
-    inactiveButtonClass: 'popup__button_disabled',
-    inputErrorClass: 'popup__input_state_error',
-    errorClass: 'popup__input-error_active',
-  }
+const config = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button-save',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_state_error',
+  errorClass: 'popup__input-error_active',
+ }
 
-export {initialCards, config}
+const token = 'b18f91bc-91b0-4a91-a711-318fa430706a'
+const requestUrl = 'https://nomoreparties.co/v1/cohort36/'
+
+export {initialCards, config, token, requestUrl}

@@ -15,13 +15,16 @@
         <main class="content">
 
             <section class="profile">
-                <img src="<%=require('./images/Kusto.jpg')%>" alt="Аватарка" class="profile__avatar">
-                <div class="profile-info">
-                    <h1 class="profile-info__title">Жак-Ив Кусто</h1>
-                    <button class="profile-info__edit-button" type="button"></button>
-                    <p class="profile-info__sub-title">Исследователь океана</p>
-                </div>
-                <button class="profile__add-button" type="button"></button>
+              <div class="profile__avatar-container">
+                <img src="" alt="Аватарка" class="profile__avatar">
+                <button type="button" class="profile__avatar-button"></button>
+              </div>
+              <div class="profile-info">
+                  <h1 class="profile-info__title"></h1>
+                  <button class="profile-info__edit-button" type="button"></button>
+                  <p class="profile-info__sub-title"></p>
+              </div>
+              <button class="profile__add-button" type="button"></button>
             </section>
 
             <section class="elements">
@@ -33,7 +36,7 @@
         </main>
 
         <footer class="footer">
-            <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
+            <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
         </footer>
 
     </div>
@@ -43,11 +46,11 @@
             <h2 class="popup__title">Редактировать профиль</h2>
             <form name="popup-edit-form" class="popup__form" novalidate>
                 <section class="popup__section">
-                    <input type="text" value="Жак-ив Кусто" class="popup__input popup__input_type_name" name="name" placeholder="Имя" minlength="2" maxlength="40" required>
+                    <input type="text" value="" class="popup__input popup__input_type_name" name="name" placeholder="Имя" minlength="2" maxlength="40" required>
                     <span class="popup__input-error"></span>
                 </section>
                 <section class="popup__section">
-                    <input type="text" value="Исследователь океана" class="popup__input popup__input_type_job" name="job" placeholder="Профессиональная деятельность" minlength="2" maxlength="200" required>
+                    <input type="text" value="" class="popup__input popup__input_type_job" name="job" placeholder="Профессиональная деятельность" minlength="2" maxlength="200" required>
                     <span class="popup__input-error"></span>
                 </section>
                 <button type="submit" class="popup__button-save">Сохранить</button>
@@ -82,17 +85,43 @@
         </div>
     </section>
 
+    <section class="popup popup_confirm">
+      <div class="popup__container">
+        <h2 class="popup__title">Вы уверены?</h2>
+        <form name="popup-container" class="popup__form" novalidate>
+          <button type="submit" class="popup__button-save">Да</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="popup popup_avatar">
+      <div class="popup__container">
+        <h2 class="popup__title">Обновить аватар</h2>
+        <form name="popup-editAvatar-form" class="popup__form" novalidate>
+            <section class="popup__section">
+                <input type="url" value="" class="popup__input popup__input_type_link" name="link" placeholder="Ссылка на аватарку" required>
+                <span class="popup__input-error"></span>
+            </section>
+            <button type="submit" class="popup__button-save" disabled="true">Сохранить</button>
+        </form>
+        <button class="popup__button-close" type="button"></button>
+      </div>
+    </section>
+
     <template id='element'>
         <li class="element">
             <img src="./images/Karachaevo.jpg" alt="#" class="element__image">
             <div class="element__group">
-                <h2 class="element__title">Карачаево-Черкесская Республика</h2>
-                <button class="element__like" type="button"></button>
+                <h2 class="element__title"></h2>
+                <div class="element__like-group">
+                  <button class="element__like" type="button"></button>
+                  <span class="element__like-counter">1</span>
+                </div>
             </div>
             <button class="element__trash" type="button"></button>
         </li>
     </template>
 
-
+<!-- Уверен что будут недочеты, очень спешил догнать свой поток -->
 </body>
 </html>

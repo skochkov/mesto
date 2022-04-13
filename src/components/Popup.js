@@ -1,7 +1,7 @@
 export default class Popup {
   constructor(popupSelector) {
     this._popup = document.querySelector(popupSelector)
-    this._handleEscClose = this._handleEscClose.bind(this)   //Подсмотрел это решение для того чтобы закрывать на Esc. Вообще не могу понять как это работает, а главное почему без этого не работает и ошибок не выдает))
+    this._handleEscClose = this._handleEscClose.bind(this)
   }
 
   open() {
