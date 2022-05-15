@@ -4,32 +4,26 @@ export default class Api {
     this._headers = headers
   }
 
+  _checkResponse(res) {
+    if(res.ok) {
+      return res.json()
+    } else{
+      return Promise.reject(`Ошибка: ${res.status}`)
+    }
+  }
+
   getUserInfo() {
     return fetch(`${this._requestUrl}users/me`, {
         headers: this._headers
       })
-    .then(res => {
-      if(res.ok) {
-        return res.json()
-      }
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+    .then(this._checkResponse)
   }
 
   getCards() {
     return fetch(`${this._requestUrl}cards`, {
       headers: this._headers
     })
-    .then(res => {
-      if(res.ok) {
-        return res.json()
-      }
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+    .then(this._checkResponse)
   }
 
   setUserInfo(data) {
@@ -41,14 +35,7 @@ export default class Api {
         about: data.job
       })
     })
-    .then(res => {
-      if(res.ok) {
-        return res.json()
-      }
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+    .then(this._checkResponse)
   }
 
   createCard({name, link}) {
@@ -60,14 +47,7 @@ export default class Api {
         link
       })
     })
-    .then(res => {
-      if(res.ok) {
-        return res.json()
-      }
-    })
-    .catch(err => {
-      console.log(err)
-    })
+    .then(this._checkResponse)
   }
 
   deleteCard(cardId) {
@@ -75,14 +55,7 @@ export default class Api {
       method: 'DELETE',
       headers: this._headers
     })
-    .then(res => {
-      if(res.ok) {
-        return res.json()
-      }
-    })
-    .catch(err => {
-      console.log(err)
-    })
+    .then(this._checkResponse)
   }
 
   likeCard(cardId) {
@@ -90,14 +63,7 @@ export default class Api {
       method: 'PUT',
       headers: this._headers
     })
-    .then(res => {
-      if(res.ok) {
-        return res.json()
-      }
-    })
-    .catch(err => {
-      console.log(err)
-    })
+    .then(this._checkResponse)
   }
 
   dislikeCard(cardId) {
@@ -105,14 +71,7 @@ export default class Api {
       method: 'DELETE',
       headers: this._headers
     })
-    .then(res => {
-      if(res.ok) {
-        return res.json()
-      }
-    })
-    .catch(err => {
-      console.log(err)
-    })
+    .then(this._checkResponse)
   }
 
   setAvatar({avatar}) {
@@ -123,13 +82,6 @@ export default class Api {
         avatar
       })
     })
-    .then(res => {
-      if (res.ok) {
-        return res.json()
-      }
-    })
-    .catch(err => {
-      console.log(err)
-    })
+    .then(this._checkResponse)
   }
 }

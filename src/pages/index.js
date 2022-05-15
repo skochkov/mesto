@@ -27,7 +27,7 @@ const profileInfo = document.querySelector('.profile-info__sub-title')
 const profileAvatar = document.querySelector('.profile__avatar')
 const avatarButton = document.querySelector('.profile__avatar-button')
 
-let currentUserId = null
+let currentUserId
 
 
 //Включаем валидацию форм с помощью класса FormValidator
@@ -132,25 +132,26 @@ function handleCardClick(name, link) {
   popupImg.open(name, link)
 }
 
-function handleCardDelete(card, cardItem) {
+function handleCardDelete(card) {
+  popupDelete.open()
   popupDelete.setFormSubmitHandler(() => {
-    api.deleteCard(cardItem._id)
-    .then(() => {
-      card.handlerDelete()
-
-      popupDelete.close()
+    api.deleteCard(card.id())
+    .then((data) => {
+      card.handlerDelete(data)
     })
     .catch((err) => {
       console.log(err)
     })
+    .finally(() => {
+      popupDelete.close()
+    })
   })
-  popupDelete.open()
 }
 
-function handleCardLike(card, cardItem) {
+function handleCardLike(card) {
   const promise = card.isLiked()
-   ? api.dislikeCard(cardItem._id)
-   : api.likeCard(cardItem._id)
+   ? api.dislikeCard(card.id())
+   : api.likeCard(card.id())
   promise
     .then((data) => {
         card.setLike(data)
@@ -161,9 +162,11 @@ function handleCardLike(card, cardItem) {
 }
 
 function newCardCreate(cardItem) {
-  const card = new Card(cardItem, handleCardClick, {
-    handleCardDelete: () => handleCardDelete(card, cardItem),
-    handleCardLike: () => handleCardLike(card, cardItem)
+  const card = new Card({
+    data: cardItem,
+    handleCardClick: handleCardClick,
+    handleCardDelete: () => handleCardDelete(card),
+    handleCardLike: () => handleCardLike(card)
     },
     currentUserId,
     '#element')
