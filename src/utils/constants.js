@@ -37,4 +37,22 @@ const config = {
 const token = 'b18f91bc-91b0-4a91-a711-318fa430706a'
 const requestUrl = 'https://nomoreparties.co/v1/cohort36/'
 
-export {initialCards, config, token, requestUrl}
+const editButton = document.querySelector('.profile-info__edit-button')
+const addButton = document.querySelector('.profile__add-button')
+
+const editForm = '.popup_edit_profile'
+const nameInput = document.querySelector('.popup__input_type_name')
+const infoInput = document.querySelector('.popup__input_type_job')
+
+const addForm = '.popup_add_card'
+const elementContainer = document.querySelector('.elements__list')
+
+const avatarForm = '.popup_avatar'
+
+const profileName = document.querySelector('.profile-info__title')
+const profileInfo = document.querySelector('.profile-info__sub-title')
+const profileAvatar = document.querySelector('.profile__avatar')
+const avatarButton = document.querySelector('.profile__avatar-button')
+
+export {initialCards, config, token, requestUrl, editButton, addButton, editForm, nameInput, infoInput, addForm, elementContainer, avatarForm,
+profileName, profileInfo, profileAvatar, avatarButton}

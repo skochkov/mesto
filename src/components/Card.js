@@ -50,11 +50,11 @@ export default class Card {
 
   setLike(data) {
     this._isLiked = data.likes.filter((item) => {return item._id == this._currentId}).length > 0
-    this._element.querySelector('.element__like-counter').textContent = data.likes.length
+    this._likeCounter.textContent = data.likes.length
     if (this._isLiked) {
-      this._element.querySelector('.element__like').classList.add('element__like_status_active')
+      this._like.classList.add('element__like_status_active')
     } else {
-      this._element.querySelector('.element__like').classList.remove('element__like_status_active')
+      this._like.classList.remove('element__like_status_active')
     }
   }
 
@@ -68,6 +68,8 @@ export default class Card {
 
   render = () => {
     this._element = this._getTemplate()
+    this._like = this._element.querySelector('.element__like')
+    this._likeCounter = this._element.querySelector('.element__like-counter')
     this._setEventListeners()
 
     const elementImage = this._element.querySelector('.element__image')
@@ -75,7 +77,7 @@ export default class Card {
     elementImage.src = this._image
     elementImage.alt = this._title
     this._element.querySelector('.element__title').textContent = this._title
-    this._element.querySelector('.element__like-counter').textContent = this._likes.length
+    this._likeCounter.textContent = this._likes.length
     this._getView()
 
     return this._element
