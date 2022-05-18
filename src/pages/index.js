@@ -34,16 +34,8 @@ const api = new Api({
 Promise.all([api.getUserInfo(), api.getCards()])
   .then(([userData, cards]) => {
     user.setUserInfo(userData.name, userData.about, userData.avatar, userData._id)
-
-    const cardList = new Section({
-      data: cards,
-      renderer: (cardItem) => {
-        cardList.setItem(newCardCreate(cardItem))
-      }
-    },
-    elementContainer
-    )
-    cardList.renderItems() //не могу понять логику
+    currentUserId = user.getUserId()
+    cardList.renderItems(cards)
   })
   .catch((err) => {
     console.log(err)
@@ -58,6 +50,15 @@ const user = new UserInfo(
    userInfo: profileInfo,
    userAvatar: profileAvatar
   }
+)
+
+const cardList = new Section({
+  data: {},
+  renderer: (cardItem) => {
+    cardList.setItem(createCard(cardItem))
+  }
+},
+elementContainer
 )
 
 const popupFormEdit = new PopupWithForm({
@@ -85,9 +86,9 @@ const popupFormAdd = new PopupWithForm({
         popupFormAdd.loading(true)
         api.createCard(cardItem)
         .then(data => {
-          const newCard = newCardCreate(data)
+          const newCard = createCard(data)
 
-          elementContainer.prepend(newCard)
+          cardList.prependItem(newCard)
 
           popupFormAdd.close()
         })
@@ -106,7 +107,7 @@ const popupFormAvatar = new PopupWithForm({
     popupFormAvatar.loading(true)
     api.setAvatar({avatar: link})
       .then((data) => {
-        profileAvatar.src = data.avatar
+        user.setUserInfo(data.name, data.about, data.avatar, data._id)
 
         popupFormAvatar.close()
       })
@@ -157,7 +158,7 @@ function handleCardLike(card) {
     })
 }
 
-function newCardCreate(cardItem) {
+function createCard(cardItem) {
   const card = new Card({
     data: cardItem,
     handleCardClick: handleCardClick,

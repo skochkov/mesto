@@ -1,6 +1,7 @@
 export default class Card {
 
   constructor({data, handleCardClick, handleCardDelete, handleCardLike}, currentUserId, template) {
+    this._data = data
     this._title = data.name
     this._image = data.link
     this._likes = data.likes
@@ -78,6 +79,7 @@ export default class Card {
     elementImage.alt = this._title
     this._element.querySelector('.element__title').textContent = this._title
     this._likeCounter.textContent = this._likes.length
+    this.setLike(this._data)
     this._getView()
 
     return this._element
